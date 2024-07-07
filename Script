@@ -1,0 +1,149 @@
+local tool = Instance.new("Tool")
+tool.Name = "Singularity"
+tool.RequiresHandle = false
+local cooldown = 10
+
+local isCooldown = false
+tool.Activated:Connect(function()
+if isCooldown then return end
+    isCooldown = true
+local player = game.Players.LocalPlayer
+local function attractAndDamage()
+    local humanoids = game:GetService("Workspace"):GetDescendants()
+    for _, humanoid in pairs(humanoids) do
+        if humanoid:IsA("Humanoid") and humanoid.Parent ~= player.Character then
+            local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+            local tween = game:GetService("TweenService"):Create(
+                humanoid.RootPart,
+                tweenInfo,
+                {CFrame = CFrame.new(player.Character.HumanoidRootPart.Position)}
+            )
+            tween:Play()
+
+            humanoid:TakeDamage(5)
+        end
+    end
+end
+
+local function startAttraction()
+    attractAndDamage()
+
+    wait(5)
+    local humanoids = game:GetService("Workspace"):GetDescendants()
+    for _, humanoid in pairs(humanoids) do
+        if humanoid:IsA("Humanoid") and humanoid.Parent ~= player.Character then
+            humanoid.RootPart.Velocity = player.Character.HumanoidRootPart.CFrame.LookVector * 500
+humanoid:TakeDamage(10)
+        end
+    end
+end
+
+    startAttraction()
+wait(cooldown)
+    isCooldown = false
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+local tool = Instance.new("Tool")
+tool.Name = "White hole"
+tool.RequiresHandle = false
+local cooldown = 1
+
+local isCooldown = false
+tool.Activated:Connect(function()
+if isCooldown then return end
+    isCooldown = true
+local player = game.Players.LocalPlayer
+
+local function launchNeonPart()
+    neonPart = Instance.new("Part")
+    neonPart.Name = "NeonPart"
+    neonPart.Size = Vector3.new(10, 10, 10)
+    neonPart.Shape = Enum.PartType.Ball
+    neonPart.Color = Color3.fromRGB(255, 255, 255)
+    neonPart.Transparency = 0
+    neonPart.Material = Enum.Material.Neon
+    neonPart.CanCollide = false
+    neonPart.Parent = workspace
+    neonPart.CFrame = player.Character.HumanoidRootPart.CFrame
+
+    partTween = game:GetService("TweenService"):Create(neonPart, TweenInfo.new(5, Enum.EasingStyle.Linear), {
+        Position = neonPart.Position + player.Character.HumanoidRootPart.CFrame.LookVector * 300
+    })
+    partTween:Play()
+ neonPart.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChildOfClass("Humanoid") then
+            local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
+            if humanoid.Parent ~= player.Character then
+ humanoid.RootPart.Velocity = (humanoid.RootPart.Position - neonPart.Position).Unit * 300
+                humanoid:TakeDamage(5)
+            end
+        end
+    end)
+
+    wait(5)
+    neonPart:Destroy()
+end
+
+    launchNeonPart()
+wait(cooldown)
+    isCooldown = false
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+local tool = Instance.new("Tool")
+tool.Name = "Quasar"
+tool.RequiresHandle = false
+local cooldown = 20
+
+local isCooldown = false
+tool.Activated:Connect(function()
+if isCooldown then return end
+    isCooldown = true
+local player = game.Players.LocalPlayer
+
+local function createNeonPart()
+    neonPart = Instance.new("Part")
+    neonPart.Name = "NeonPart"
+    neonPart.Size = Vector3.new(20, 20, 20)
+    neonPart.Shape = Enum.PartType.Ball
+    neonPart.Color = Color3.fromRGB(0, 0, 0)
+    neonPart.Transparency = 0
+    neonPart.Material = Enum.Material.Neon
+    neonPart.CanCollide = false
+    neonPart.Anchored = true
+    neonPart.Position = player.Character.HumanoidRootPart.Position
+    neonPart.Parent = workspace
+
+        for _, humanoid in ipairs(workspace:GetDescendants()) do
+            if humanoid:IsA("Humanoid") and humanoid.Parent ~= player.Character then
+                tweenInfo = TweenInfo.new(5, Enum.EasingStyle.Quad)
+                success, tween = pcall(function()
+                    return game:GetService("TweenService"):Create(humanoid.RootPart, tweenInfo, {
+                        CFrame = neonPart.CFrame
+                    })
+                end)
+                if success then
+                    tween:Play()
+                end
+            end
+        end
+
+    wait(5.2)
+    for _, humanoid in ipairs(workspace:GetDescendants()) do
+        if humanoid:IsA("Humanoid") and humanoid.Parent ~= player.Character then
+            humanoid.RootPart.Velocity = (humanoid.RootPart.Position - neonPart.Position).Unit * 600
+   humanoid:TakeDamage(80)
+        end
+    end
+    neonPart:Destroy()
+end
+
+createNeonPart()
+wait(cooldown)
+    isCooldown = false
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
